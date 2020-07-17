@@ -40,7 +40,6 @@ fi
 }
 
 function funcDisplayParm(){
-  echo $1
   D1_PARM=$(funcReadSettingsFromFile $1 3)
   D2_PARM=$(funcReadSettingsFromFile $1 1)
   funcDisplayMsgBox "$D2_PARM" "$D2_PARM is: `$D1_PARM`" "50" "80" "5"
@@ -49,27 +48,13 @@ function funcDisplayParm(){
 }
 
 
-funcDisplayMenu () {
+function funcDisplayMenu () {
  $MENUBOX --title " MAIN MENU" --menu "Use Arrows" "50" "80" "15" 1 "Internet Connectivity" 2 "Operating System Name" 3 "Hostname" 4 "Internal IP"  5 "External IP" 6 "Number of Logged In users" 7 "Ram Usage" 8 "Swap Usage" 9 "Disk Usages" 10 "Disk IO" 11 "Load Average" 12 "System Uptime" 13 "Open Port/socket" Q "Quit" 2>choice.txt
 }
 
-#MAIN
-#funcInternetConnectivity
-
-#sleep 1
-#funcOSName
-
-#funcDisplayParm OS_Name
-#: '
-#Memo
-#To be done
-#funcDisplayMsgBox "$MEMO_FILE" "$D2_PARM is: `$D1_PARM`" "50" "80" "5"
-#Read input parameters to be done
-#funcInputParms to be done
-#Verify preconditions for script to operate
-#funcVerifyPackets
-
 # Display menu
+funcDisplayMenu
+#Display while not quited
 while [ "`cat choice.txt`" != "Q" ] && [ "`cat choice.txt`" != "q" ]; do
 funcDisplayMenu
 case "`cat choice.txt`" in

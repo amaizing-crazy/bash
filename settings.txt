@@ -1,7 +1,7 @@
 Internet Connectivity:ADDRESS:google.com
 Operating System Name:OS_Name:uname -s
-Hostname:hname:uname -a | awk '{print $2}'
-Internal IP:intip:uname -a | awk '{print $2}'
+Hostname:hname:cat /etc/hostname
+Internal IP:intip:hostname -I
 External IP:extip:curl ifconfig.me
 Number of Logged In users:usernum:users | wc -w
 Ram Usages:ram:grep Mem /proc/meminfo
