@@ -1,0 +1,13 @@
+Internet Connectivity:ADDRESS:google.com
+Operating System Name:OS_Name:uname -s
+Hostname:hname:uname -a | awk '{print $2}'
+Internal IP:intip:uname -a | awk '{print $2}'
+External IP:extip:curl ifconfig.me
+Number of Logged In users:usernum:users | wc -w
+Ram Usages:ram:grep Mem /proc/meminfo
+Swap Usages:swap:grep Swap /proc/meminfo
+Disk Usages:dusage:df -H
+Disk IO:dio:iostat
+Load Average:lavg:cat /proc/loadavg
+System Uptime:suptime:uptime -p
+Open Port/socket:openport:netstat -tulpn | grep LISTEN
