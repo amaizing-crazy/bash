@@ -49,16 +49,14 @@ function funcDisplayParm(){
 }
 
 function funcDisplayMemo(){
-echo Pareamter count is $#
-echo first param is $1
-A=$#
-B=$1
+  A=$#
+  B=$1
  if [ $A == 0 ]; then
-echo "Workstation monitoring;"
-echo "Mode of run: human-readable, batch, daemon.Use keys:-b batch -d daemon mode -h human readable"
+echo "ERROR! Script should be started with parameters."
+echo "Mode of run: human-readable, batch, daemon.Use keys:-b batch -d daemon mode -i interactive -h help"
 echo "All settings are stored in file settings.txt, metrix are stored in file metrics.txt"
 sleep 2
-elif [ $B == -h ] ; then
+elif [ $B == -i ] ; then
  # Display menu
 funcDisplayMenu
 #Display while not quited
