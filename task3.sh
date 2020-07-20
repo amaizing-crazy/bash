@@ -94,6 +94,11 @@ case "`cat choice.txt`" in
 esac
 clear
 done
+clear
+#elif [ $B == -d ] ; then
+#will put code to start as daemon
+#elif [ $B == -b ]
+#will put code to run as batch
 else
  echo error! Need to be started with parameter!
 sleep 2
