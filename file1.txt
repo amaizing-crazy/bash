@@ -1,0 +1,1 @@
+google.com uname -s cat /etc/hostname hostname -I curl ifconfig.me users | wc -w grep Mem /proc/meminfo grep Swap /proc/meminfo df -H iostat cat /proc/loadavg uptime -p netstat -tulpn | grep LISTEN
