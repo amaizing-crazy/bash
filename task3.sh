@@ -7,7 +7,7 @@ SETTINGS_FILE=settings.txt
 MEMO_FILE=README.md
 DOCFILE="script_listing"
 PACKAGE=package.txt
-DIR=dir.txt
+DIRECT=dir.txt
 METRICS_NAME=empty
 METRICS_VAL=empty
 MESSAGE="Message"
@@ -116,11 +116,22 @@ function funcDisplayParm(){
 function funcDisplayMemo(){
   A=$#
   B=$1
+  C=$2
+#No Input Parameters Error
  if [ $A == 0 ]; then
 echo "ERROR! Script should be started with parameters."
 echo "Mode of run: human-readable, batch, daemon.Use keys:-b batch -d daemon mode -i interactive -h help"
 echo "All settings are stored in file settings.txt, metrix are stored in file metrics.txt"
 sleep 2
+#Interactive and SSH
+elif [ $B == -b ] && [ $C == -s ]; then
+echo "Enter server ip address:"
+read SERVERADDRESS
+ssh vagrant@$SERVERADDRESS /usr/sbin/ifconfig
+#cho `ifconfig`
+sleep 3
+#funcDisplayMenu
+#Start in an interactive mode
 elif [ $B == -i ] ; then
  # Display menu
 funcDisplayMenu
@@ -161,33 +172,30 @@ esac
 clear
 done
 clear
+#Start as daemon
 elif [ $B == -d ] ; then
- #echo "/5 * * * * * $DIRECTORY/task3.sh -d">>/var/spool/cron/vagrant
- #echo "@something" >>/var/log/spool/cron/vagrant
- (crontab -l 2>/dev/null; echo "0 4 * * * $DIRECTORY/task3.sh -d")
+ (crontab -l 2>/dev/null; echo "*/5 * * * * /path/to/job -with args") | crontab -
 
-#will put code to start as daemon
+#Start as batch
 elif [ $B == -b ]; then
-echo "#!/bin/more" > "$DOCFILE"
-  funcReadSettingsFromFileBatch 3 > tmpfile1.txt
-  echo `cat tmpfile1.txt`
-  funcReadSettingsFromFileBatch 1 > tmpfile2.txt
-  #ls *.sh > tmplisting.txt
-
- while IFS= read -r LINE; do
-   echo "==================================" >> "$LINE"
-   echo "Command: $LINE " >> "$LINE"
-   echo "==================================" >> "$LINE"
+echo "script run at `date`"
+IFS=":"
+ while read -r NAME PARM COMMAND; do
+   echo "==================================" >> "$DOCFILE"
+   echo "$NAME" >> "$DOCFILE"
+   echo "==================================" >> "$DOCFILE"
+   echo "Parameter name: $PARM " >> "$DOCFILE"
+   echo "==================================" >> "$DOCFILE"
+   eval "$COMMAND" >> $DOCFILE
+   echo "-----------------------------------" >> "$DOCFILE"
    echo ""
-   echo "`$LINE`" >> "$DOCFILE"
-done < tmpfile1.txt
+   echo ""
+done < $SETTINGS_FILE
 
 chmod 755 "$DOCFILE"
-
-#rm tmpfile1.txt
-#rm tmpfile2.txt
+#
 else
- echo error! Need to be started with parameter!
+ echo "Error! Need to be started with parameter!"
 sleep 2
 fi
 }
@@ -197,13 +205,10 @@ function funcDisplayMenu () {
  $MENUBOX --title " MAIN MENU" --menu "Use Arrows" "50" "80" "15" 1 "Internet Connectivity" 2 "Operating System Name" 3 "Hostname" 4 "Internal IP"  5 "External IP" 6 "Number of Logged In users" 7 "Ram Usage" 8 "Swap Usage" 9 "Disk Usages" 10 "Disk IO" 11 "Load Average" 12 "System Uptime" 13 "Open Port/socket" Q "Quit" 2>choice.txt
 }
 #Display memo
-#funcCheckPrerequirementsDir
-#funcCheckPrerequirementsPackage
-funcReadFromFIle funcCheckPrerequirementsDir $DIR
+#Checking prerequirements
+funcReadFromFIle funcCheckPrerequirementsDir $DIRECT
 funcReadFromFIle funcCheckPrerequirementsPackage $PACKAGE
 
-echo "something"
-echo $?
 sleep 2
 funcDisplayMemo $OPEARTION_MODE $SSH_RUN
 
